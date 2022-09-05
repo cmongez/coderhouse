@@ -1,9 +1,9 @@
 const Container = require('./clases.js');
 
-//creamos la instancia de la clase container
-const products = new Container('products.txt');
-
 const main = async () => {
+  //creamos la instancia de la clase container
+  const products = new Container('products.txt');
+  
   //Añadimos los productos
   let product1 = await products.save({
     title: 'Escuadra',
@@ -28,8 +28,8 @@ const main = async () => {
   let productById = await products.getByID(3);
   console.log('Producto:', productById);
 
-  //Eliminamos el producto con id 2
-  let deleteProduct = await products.deleteById(2);
+  // //Eliminamos el producto con id 2
+  // let deleteProduct = await products.deleteById(2);
 
   //Traemos todos los productos
   let allProducts = await products.getAll();
@@ -37,6 +37,7 @@ const main = async () => {
   console.log(allProducts);
 
   //Eliminamos el archivo con los productos.
-  let deleteAll = await products.deleteAll();
+  // console.log('Eliminamos todos los productos')
+  // let deleteAll = await products.deleteAll();
 };
 main();
