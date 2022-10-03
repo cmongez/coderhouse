@@ -3,20 +3,30 @@ const app = express();
 const { Router } = express;
 const ProductsApi = require('./api/productos.js');
 const productosRouter = new Router();
-
+productosRouter.use(express.json());
+productosRouter.use(express.urlencoded({ extended: true }));
 const productsApi = new ProductsApi();
 
 productosRouter.get('/', (req, res) => {
   res.send(productsApi.getAll());
 });
+
 productosRouter.get('/:id', (req, res) => {
   const { id } = req.params;
   res.send(productsApi.getById(id));
 });
+
 productosRouter.post('/', (req, res) => {
-  const { prod } = req.body;
-  res.send(productsApi.save(prod));
+  console.log(req.body);
+  res.json(productsApi.save(req.body));
 });
+
+productosRouter.put('/:id', (req, res) => {
+  let { id } = req.params;
+  console.log('BODY', req.body);
+  res.json(productsApi.update(req.body, id));
+});
+
 productosRouter.delete('/:id', (req, res) => {
   const { id } = req.params;
   res.send(productsApi.delete(id));
