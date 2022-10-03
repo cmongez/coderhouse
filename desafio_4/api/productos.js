@@ -27,7 +27,7 @@ class ProductsApi {
 
   delete(id) {
     this.products = this.products.filter((elem) => elem.id !== id);
-    return { msg: 'Producto eliminado' };
+    return { msg: 'Product deleted' };
   }
 }
 module.exports = ProductsApi;
