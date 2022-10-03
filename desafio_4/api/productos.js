@@ -1,12 +1,12 @@
 class ProductsApi {
   constructor() {
-    this.products = [];
+    this.products = [{}, {}];
     this.id = 0;
   }
   getById(id) {
     let prod = this.products.find((elem) => elem.id === id);
 
-    return prod == undefinded ? { error: 'Product does not exist' } : prod;
+    return prod === undefined ? { error: 'Product does not exist.' } : prod;
   }
 
   getAll() {
