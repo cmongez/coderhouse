@@ -6,6 +6,7 @@ const productosRouter = new Router();
 productosRouter.use(express.json());
 productosRouter.use(express.urlencoded({ extended: true }));
 const productsApi = new ProductsApi();
+app.use(express.static('public'));
 
 productosRouter.get('/', (req, res) => {
   res.send(productsApi.getAll());
