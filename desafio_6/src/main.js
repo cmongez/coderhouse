@@ -13,7 +13,7 @@ const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 const products = new ContenedorMemoria();
-const messages = new ContenedorArchivo();
+const messages = new ContenedorArchivo('mensajes.txt');
 
 //--------------------------------------------
 // configuro el socket
@@ -35,12 +35,18 @@ io.on('connection', async (socket) => {
     io.sockets.emit('productos', productos);
   });
 
-  //mensajes
-
-  const mensajes = messages.getAll();
+  const mensajes = await messages.getAll();
 
   //Envia el historial de productos a quien se conecte
-  socket.emit('mensajes', mensajes);
+  socket.emit('mensajes', await mensajes);
+
+  //Evento agrega un nuevo mensaje al array
+  socket.on('add-message', async (mensaje) => {
+    await messages.save(mensaje);
+    const newMessages = await messages.getAll();
+
+    io.sockets.emit('mensajes', newMessages);
+  });
 });
 
 //--------------------------------------------

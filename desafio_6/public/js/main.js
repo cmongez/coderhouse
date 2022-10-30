@@ -16,7 +16,6 @@ formAgregarProducto.addEventListener('submit', (e) => {
 
 socket.on('productos', async (productos) => {
   //generar el html y colocarlo en el tag productos llamando a la funcion makeHtmlTable
-  console.log(productos);
 
   const prueba = await makeHtmlTable(productos);
   document.getElementById('productos').innerHTML = prueba;
@@ -41,18 +40,32 @@ const btnEnviar = document.getElementById('btnEnviar');
 const formPublicarMensaje = document.getElementById('formPublicarMensaje');
 formPublicarMensaje.addEventListener('submit', (e) => {
   e.preventDefault();
+  const newDate = new Date().toLocaleString();
+
+  const mensaje = {
+    author: inputUsername.value,
+    message: inputMensaje.value,
+    date: newDate,
+  };
+
+  socket.emit('add-message', mensaje);
   //Armar el objeto de mensaje y luego emitir mensaje al evento nuevoMensaje con sockets
   formPublicarMensaje.reset();
   inputMensaje.focus();
 });
 
 socket.on('mensajes', async (mensajes) => {
-  console.log(mensajes);
   const html = await makeHtmlList(mensajes);
+
   document.getElementById('mensajes').innerHTML = html;
 });
 
 function makeHtmlList(mensajes) {
+  const prueb = mensajes.map((elem) => {
+    return `<div><span class="text-primary font-weight-bold">${elem.author} </span><span class="text-danger">[${elem.date}] :</span><span class="text-success font-italic"> ${elem.message}</span></div>`;
+  });
+
+  return prueb.join('');
   //Armar nuestro html para mostrar los mensajes como lo hicimos en clase
 }
 
